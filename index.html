@@ -15,12 +15,17 @@
         }
         .snowflake {
             position: absolute;
-            top: -10px;
-            color: white;
-            font-size: 1em;
-            user-select: none;
-            pointer-events: none;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
             opacity: 0.8;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
         }
         .container {
             max-width: 800px;
@@ -42,31 +47,43 @@
             text-decoration: none;
             font-weight: bold;
         }
+        .menu {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+        .menu a {
+            margin: 0 15px;
+            color: #00bfff;
+            cursor: pointer;
+        }
+        .help-modal {
+            position: fixed;
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: bottom 0.5s ease-in-out;
+        }
+        .help-modal.active {
+            bottom: 20px;
+        }
+        .close-btn {
+            background: red;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
-    <script>
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.innerHTML = '❄';
-            document.body.appendChild(snowflake);
-            
-            let size = Math.random() * 20 + 10;
-            let startPosX = Math.random() * window.innerWidth;
-            let duration = Math.random() * 5 + 5;
-            
-            snowflake.style.left = `${startPosX}px`;
-            snowflake.style.fontSize = `${size}px`;
-            snowflake.style.animation = `fall ${duration}s linear infinite`;
-            
-            setTimeout(() => {
-                snowflake.remove();
-            }, duration * 1000);
-        }
-        
-        setInterval(createSnowflake, 200);
-    </script>
     <div class="container">
         <h1>ColdThem</h1>
         <p>IP сервера: <b>play.coldthem.ru</b></p>
@@ -89,11 +106,34 @@
             <a href="#">Открыть статистику</a>
         </div>
     </div>
-    <style>
-        @keyframes fall {
-            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+
+    <div class="menu">
+        <a onclick="toggleHelp()">Help</a>
+        <a href="#">Privacy Policy</a>
+    </div>
+
+    <div class="help-modal" id="helpModal">
+        <p>Контактная почта: coldthem.help@gmail.com</p>
+        <button class="close-btn" onclick="toggleHelp()">Закрыть</button>
+    </div>
+
+    <script>
+        function createSnowflakes() {
+            for (let i = 0; i < 50; i++) {
+                let snowflake = document.createElement("div");
+                snowflake.className = "snowflake";
+                snowflake.style.left = Math.random() * 100 + "vw";
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(snowflake);
+                setTimeout(() => snowflake.remove(), 5000);
+            }
         }
-    </style>
+        setInterval(createSnowflakes, 500);
+
+        function toggleHelp() {
+            let modal = document.getElementById("helpModal");
+            modal.classList.toggle("active");
+        }
+    </script>
 </body>
 </html>
