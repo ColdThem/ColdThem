@@ -71,6 +71,18 @@
             font-size: 18px;
             color: #00bfff;
         }
+        @keyframes snow {
+            from { transform: translateY(0px); }
+            to { transform: translateY(100vh); }
+        }
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            opacity: 0.8;
+            user-select: none;
+            animation: snow linear infinite;
+        }
     </style>
 </head>
 <body>
@@ -113,6 +125,19 @@
                 document.getElementById('helpModal').style.display = 'none';
             }, 500);
         }
+        function createSnowflakes() {
+            const snowflakeCount = 50;
+            for (let i = 0; i < snowflakeCount; i++) {
+                let snowflake = document.createElement("div");
+                snowflake.innerHTML = "❄";
+                snowflake.classList.add("snowflake");
+                snowflake.style.left = Math.random() * 100 + "vw";
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + "px";
+                document.body.appendChild(snowflake);
+            }
+        }
+        createSnowflakes();
     </script>
 </body>
 </html>
