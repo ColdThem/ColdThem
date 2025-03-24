@@ -11,69 +11,25 @@
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
-
-        /* Убираем общий блюр на весь экран */
-        .blur-background {
-            display: none; /* Убираем блюр на фоне */
-        }
-
         .container {
             max-width: 800px;
             margin: auto;
             padding: 20px;
-            z-index: 1;
         }
-
         h1 {
             font-size: 3em;
             text-shadow: 2px 2px 10px #00bfff;
         }
-
-        /* Блюр только на секциях с кнопками */
         .section {
-            background: rgba(255, 255, 255, 0.3); /* Прозрачный фон */
+            background: rgba(255, 255, 255, 0.15);
             padding: 20px;
             margin: 10px 0;
             border-radius: 20px;
-            backdrop-filter: blur(10px); /* Блюр только на секциях */
+            backdrop-filter: blur(10px);
             color: #fff;
             text-shadow: 1px 1px 5px #000;
         }
-
-        .item {
-            background: rgba(0, 0, 50, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 10px 0;
-        }
-
-        .item h2 {
-            font-size: 2em;
-        }
-
-        .item p {
-            font-size: 1.2em;
-        }
-
-        .item a {
-            text-decoration: none;
-            color: #ffcc00;
-            padding: 10px 20px;
-            background: #00bfff;
-            border-radius: 5px;
-            margin-top: 10px;
-            display: inline-block;
-            transition: background 0.3s ease;
-        }
-
-        .item a:hover {
-            background: #ffcc00;
-            color: #00bfff;
-        }
-
         .footer {
             background: rgba(0, 0, 50, 0.8);
             padding: 10px;
@@ -83,7 +39,6 @@
             left: 0;
             width: 100%;
         }
-
         .footer a {
             color: #00bfff;
             text-decoration: none;
@@ -91,76 +46,73 @@
             cursor: pointer;
             transition: color 0.3s ease-in-out;
         }
-
         .footer a:hover {
             color: #ffcc00;
         }
-
+        .modal {
+            display: none;
+            position: fixed;
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 400px;
+            background: rgba(0, 0, 50, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 0 10px #00bfff;
+            transition: bottom 0.5s ease-in-out;
+        }
+        .modal p { margin: 10px 0; }
+        .modal .close {
+            cursor: pointer;
+            font-size: 18px;
+            color: #00bfff;
+        }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>ColdThem</h1>
         <p>IP сервера: <b>play.coldthem.ru</b></p>
-
         <div class="section">
             <h2>Магазин привилегий</h2>
             <p>Приобретите донат и эксклюзивные предметы!</p>
-            <!-- Ссылка на страницу магазина -->
             <a href="shop.html">Перейти в магазин</a>
         </div>
-
         <div class="section">
             <h2>Новости</h2>
             <p>Последние обновления сервера.</p>
             <a href="#">Читать новости</a>
         </div>
-
         <div class="section">
             <h2>Статистика игроков</h2>
             <p>Следите за своей статистикой и достижениями.</p>
             <a href="#">Открыть статистику</a>
         </div>
     </div>
-
     <div class="footer">
         <a onclick="openModal()">Help</a>
         <a href="#">Privacy Policy</a>
     </div>
-
     <div class="modal" id="helpModal">
         <p><b>Свяжитесь с нами:</b></p>
         <p>coldthem.help@gmail.com</p>
         <p class="close" onclick="closeModal()">Закрыть</p>
     </div>
-
     <script>
         function openModal() {
             document.getElementById('helpModal').style.bottom = '50px';
             document.getElementById('helpModal').style.display = 'block';
         }
-
         function closeModal() {
             document.getElementById('helpModal').style.bottom = '-100%';
             setTimeout(() => {
                 document.getElementById('helpModal').style.display = 'none';
             }, 500);
         }
-
-        function createSnowflakes() {
-            const snowflakeCount = 50;
-            for (let i = 0; i < snowflakeCount; i++) {
-                let snowflake = document.createElement("div");
-                snowflake.innerHTML = "❄";
-                snowflake.classList.add("snowflake");
-                snowflake.style.left = Math.random() * 100 + "vw";
-                snowflake.style.animationDuration = (Math.random() * 3 + 2) + "s";
-                snowflake.style.fontSize = (Math.random() * 10 + 10) + "px";
-                document.body.appendChild(snowflake);
-            }
-        }
-        createSnowflakes();
     </script>
 </body>
 </html>
