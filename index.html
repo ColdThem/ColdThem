@@ -6,114 +6,161 @@
     <title>ColdThem - Minecraft Server</title>
     <style>
         body {
-            background: url('https://cdn.pixabay.com/photo/2017/01/12/14/22/ice-1971769_1280.jpg') no-repeat center center fixed; /* Новый ледяной фон */
-            background-size: cover;
-            color: white;
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
             text-align: center;
+            color: white;
+            overflow: hidden;
+            background: url('https://i.imgur.com/fhNQx9P.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
         .container {
             max-width: 800px;
             margin: auto;
             padding: 20px;
+            position: relative;
+            z-index: 2;
         }
         h1 {
             font-size: 3em;
             text-shadow: 2px 2px 10px #00bfff;
         }
         .section {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             padding: 20px;
             margin: 10px 0;
             border-radius: 10px;
-            backdrop-filter: blur(5px);
-            color: #fff;
-            text-shadow: 1px 1px 5px #000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
-        .footer {
-            background: rgba(0, 0, 50, 0.8);
-            padding: 10px;
-            font-size: 14px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        .footer a {
+        a {
             color: #00bfff;
             text-decoration: none;
-            margin: 0 15px;
-            cursor: pointer;
+            font-weight: bold;
         }
-        .modal {
-            display: none;
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+        }
+        .help-modal {
             position: fixed;
             bottom: -100%;
             left: 50%;
             transform: translateX(-50%);
-            width: 80%;
-            max-width: 400px;
-            background: rgba(0, 0, 50, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
+            background: rgba(0, 0, 50, 0.8);
             color: white;
-            box-shadow: 0 0 10px #00bfff;
+            padding: 20px;
+            width: 300px;
+            border-radius: 10px;
             transition: bottom 0.5s ease-in-out;
         }
-        .modal p { margin: 10px 0; }
-        .modal .close {
+        .help-modal.show {
+            bottom: 10%;
+        }
+        .close-btn {
             cursor: pointer;
-            font-size: 18px;
-            color: #00bfff;
+            color: #ff4d4d;
+            font-size: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
+    <canvas class="snowflakes"></canvas>
     <div class="container">
         <h1>ColdThem</h1>
         <p>IP сервера: <b>play.coldthem.ru</b></p>
-        
         <div class="section">
             <h2>Магазин привилегий</h2>
             <p>Приобретите донат и эксклюзивные предметы!</p>
             <a href="#">Перейти в магазин</a>
         </div>
-        
         <div class="section">
             <h2>Новости</h2>
             <p>Последние обновления сервера.</p>
             <a href="#">Читать новости</a>
         </div>
-        
         <div class="section">
             <h2>Статистика игроков</h2>
             <p>Следите за своей статистикой и достижениями.</p>
             <a href="#">Открыть статистику</a>
         </div>
     </div>
-    
     <div class="footer">
-        <a onclick="openModal()">Help</a>
-        <a href="#">Privacy Policy</a>
+        <a href="#" onclick="toggleHelp()">Help</a> | <a href="#">Privacy Policy</a>
     </div>
-    
-    <div class="modal" id="helpModal">
-        <p><b>Свяжитесь с нами:</b></p>
-        <p>coldthem.help@gmail.com</p>
-        <p class="close" onclick="closeModal()">Закрыть</p>
+    <div id="help-modal" class="help-modal">
+        <span class="close-btn" onclick="toggleHelp()">&times;</span>
+        <h3>Support</h3>
+        <p>Email: coldthem.help@gmail.com</p>
     </div>
-    
     <script>
-        function openModal() {
-            document.getElementById('helpModal').style.bottom = '50px';
-            document.getElementById('helpModal').style.display = 'block';
+        function toggleHelp() {
+            document.getElementById('help-modal').classList.toggle('show');
         }
-        function closeModal() {
-            document.getElementById('helpModal').style.bottom = '-100%';
-            setTimeout(() => {
-                document.getElementById('helpModal').style.display = 'none';
-            }, 500);
+
+        function createSnowflakes() {
+            const canvas = document.querySelector('.snowflakes');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            let snowflakes = [];
+
+            function Snowflake() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.radius = Math.random() * 4 + 1;
+                this.speedY = Math.random() * 3 + 1;
+            }
+
+            Snowflake.prototype.update = function () {
+                this.y += this.speedY;
+                if (this.y > canvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * canvas.width;
+                }
+            };
+
+            Snowflake.prototype.draw = function () {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'white';
+                ctx.fill();
+            };
+
+            function init() {
+                for (let i = 0; i < 100; i++) {
+                    snowflakes.push(new Snowflake());
+                }
+                animate();
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                snowflakes.forEach(flake => {
+                    flake.update();
+                    flake.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            init();
         }
+
+        createSnowflakes();
     </script>
 </body>
 </html>
