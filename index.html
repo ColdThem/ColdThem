@@ -6,7 +6,8 @@
     <title>ColdThem - Minecraft Server</title>
     <style>
         body {
-            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+            background: url('https://i.imgur.com/6Iej2c5.png') no-repeat center center fixed; /* Ледяной фон */
+            background-size: cover;
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
@@ -25,11 +26,43 @@
             padding: 20px;
             margin: 10px 0;
             border-radius: 10px;
+            backdrop-filter: blur(5px);
         }
-        a {
+        .footer {
+            background: rgba(0, 0, 50, 0.8);
+            padding: 10px;
+            font-size: 14px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .footer a {
             color: #00bfff;
             text-decoration: none;
-            font-weight: bold;
+            margin: 0 15px;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 400px;
+            background: rgba(0, 0, 50, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 0 10px #00bfff;
+            transition: bottom 0.5s ease-in-out;
+        }
+        .modal p { margin: 10px 0; }
+        .modal .close {
+            cursor: pointer;
+            font-size: 18px;
+            color: #00bfff;
         }
     </style>
 </head>
@@ -56,5 +89,29 @@
             <a href="#">Открыть статистику</a>
         </div>
     </div>
+    
+    <div class="footer">
+        <a onclick="openModal()">Help</a>
+        <a href="#">Privacy Policy</a>
+    </div>
+    
+    <div class="modal" id="helpModal">
+        <p><b>Свяжитесь с нами:</b></p>
+        <p>coldthem.help@gmail.com</p>
+        <p class="close" onclick="closeModal()">Закрыть</p>
+    </div>
+    
+    <script>
+        function openModal() {
+            document.getElementById('helpModal').style.bottom = '50px';
+            document.getElementById('helpModal').style.display = 'block';
+        }
+        function closeModal() {
+            document.getElementById('helpModal').style.bottom = '-100%';
+            setTimeout(() => {
+                document.getElementById('helpModal').style.display = 'none';
+            }, 500);
+        }
+    </script>
 </body>
 </html>
