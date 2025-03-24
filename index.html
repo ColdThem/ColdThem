@@ -6,7 +6,7 @@
     <title>ColdThem - Minecraft Server</title>
     <style>
         body {
-            background: url('image.png') no-repeat center center fixed;
+            background: url('https://cdn.pixabay.com/photo/2017/01/12/14/22/ice-1971769_1280.jpg') no-repeat center center fixed;
             background-size: cover;
             color: white;
             font-family: Arial, sans-serif;
@@ -31,6 +31,15 @@
             color: #fff;
             text-shadow: 1px 1px 5px #000;
         }
+        a {
+            color: #00bfff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #ffcc00;
+        }
         .footer {
             background: rgba(0, 0, 50, 0.8);
             padding: 10px;
@@ -38,29 +47,6 @@
             position: fixed;
             bottom: 0;
             width: 100%;
-        }
-        .footer a {
-            color: #00bfff;
-            text-decoration: none;
-            margin: 0 15px;
-            cursor: pointer;
-            transition: color 0.3s, text-shadow 0.3s;
-        }
-        .footer a:hover {
-            color: #ffffff;
-            text-shadow: 0 0 10px #00bfff;
-        }
-        .snowflake {
-            position: fixed;
-            top: -10px;
-            color: white;
-            opacity: 0.8;
-            font-size: 10px;
-            animation: snowfall linear infinite;
-        }
-        @keyframes snowfall {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(100vh); }
         }
         .modal {
             display: none;
@@ -82,21 +68,20 @@
             cursor: pointer;
             font-size: 18px;
             color: #00bfff;
-            position: absolute;
-            top: 10px;
-            right: 15px;
         }
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2em;
-            }
-            .section {
-                padding: 15px;
-            }
+        /* Эффект снега */
+        .snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
+    <canvas class="snow"></canvas>
     <div class="container">
         <h1>ColdThem</h1>
         <p>IP сервера: <b>play.coldthem.ru</b></p>
@@ -126,36 +111,65 @@
     </div>
     
     <div class="modal" id="helpModal">
-        <span class="close" onclick="closeModal()">&times;</span>
         <p><b>Свяжитесь с нами:</b></p>
         <p>coldthem.help@gmail.com</p>
+        <p class="close" onclick="closeModal()">Закрыть</p>
     </div>
     
     <script>
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.className = 'snowflake';
-            snowflake.innerHTML = '*';
-            snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
-            document.body.appendChild(snowflake);
-            setTimeout(() => { snowflake.remove(); }, 5000);
-        }
-        setInterval(createSnowflake, 200);
-        
         function openModal() {
-            const modal = document.getElementById('helpModal');
-            modal.style.bottom = '50px';
-            modal.style.display = 'block';
+            document.getElementById('helpModal').style.bottom = '50px';
+            document.getElementById('helpModal').style.display = 'block';
         }
         function closeModal() {
-            const modal = document.getElementById('helpModal');
-            modal.style.bottom = '-100%';
+            document.getElementById('helpModal').style.bottom = '-100%';
             setTimeout(() => {
-                modal.style.display = 'none';
+                document.getElementById('helpModal').style.display = 'none';
             }, 500);
         }
+        // Скрипт снега
+        const canvas = document.querySelector('.snow');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let snowflakes = [];
+        function createSnowflakes() {
+            for (let i = 0; i < 100; i++) {
+                snowflakes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 4 + 1,
+                    d: Math.random() * 2 + 1
+                });
+            }
+        }
+        function drawSnowflakes() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            snowflakes.forEach(flake => {
+                ctx.moveTo(flake.x, flake.y);
+                ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
+            });
+            ctx.fill();
+            moveSnowflakes();
+        }
+        function moveSnowflakes() {
+            snowflakes.forEach(flake => {
+                flake.y += flake.d;
+                if (flake.y > canvas.height) {
+                    flake.y = 0;
+                    flake.x = Math.random() * canvas.width;
+                }
+            });
+        }
+        function updateSnowfall() {
+            drawSnowflakes();
+            requestAnimationFrame(updateSnowfall);
+        }
+        createSnowflakes();
+        updateSnowfall();
     </script>
 </body>
 </html>
