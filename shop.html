@@ -49,13 +49,14 @@
             font-size: 1.2em;
         }
         .footer {
-            background: rgba(0, 0, 50, 0.8);
-            padding: 10px;
-            font-size: 14px;
+            background: rgba(0, 0, 50, 0.6); /* Сделано темнее и ниже */
+            padding: 5px;
+            font-size: 12px; /* Сделан размер шрифта меньше */
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
+            text-align: center;
         }
         .footer a {
             color: #00bfff;
@@ -66,6 +67,20 @@
         }
         .footer a:hover {
             color: #ffcc00;
+        }
+        .back-btn {
+            margin-top: 20px;
+            background-color: #00bfff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .back-btn:hover {
+            background-color: #ffcc00;
         }
     </style>
 </head>
@@ -119,6 +134,8 @@
                 <p>Цена: 5000 рублей</p>
             </div>
         </div>
+        <!-- Кнопка "Вернуться" -->
+        <button class="back-btn" onclick="window.history.back()">Вернуться</button>
     </div>
     <div class="footer">
         <p>&copy; 2025 ColdThem Minecraft Server</p>
