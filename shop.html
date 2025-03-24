@@ -48,26 +48,6 @@
         .product p {
             font-size: 1.2em;
         }
-        .footer {
-            background: rgba(0, 0, 50, 0.6); /* Сделано темнее и ниже */
-            padding: 5px;
-            font-size: 12px; /* Сделан размер шрифта меньше */
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            text-align: center;
-        }
-        .footer a {
-            color: #00bfff;
-            text-decoration: none;
-            margin: 0 15px;
-            cursor: pointer;
-            transition: color 0.3s ease-in-out;
-        }
-        .footer a:hover {
-            color: #ffcc00;
-        }
         .back-btn {
             margin-top: 20px;
             background-color: #00bfff;
@@ -81,6 +61,35 @@
         }
         .back-btn:hover {
             background-color: #ffcc00;
+        }
+        /* Убираем плашку внизу */
+        .footer {
+            display: none; /* Плашка теперь скрыта */
+        }
+        /* Модальное окно Help */
+        .modal {
+            display: none;
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 400px;
+            background: rgba(0, 0, 50, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 0 10px #00bfff;
+            transition: bottom 0.5s ease-in-out;
+        }
+        .modal p {
+            margin: 10px 0;
+        }
+        .modal .close {
+            cursor: pointer;
+            font-size: 18px;
+            color: #00bfff;
         }
     </style>
 </head>
@@ -137,8 +146,28 @@
         <!-- Кнопка "Вернуться" -->
         <button class="back-btn" onclick="window.history.back()">Вернуться</button>
     </div>
-    <div class="footer">
-        <p>&copy; 2025 ColdThem Minecraft Server</p>
+
+    <!-- Модальное окно Help -->
+    <div class="modal" id="helpModal">
+        <p><b>Свяжитесь с нами:</b></p>
+        <p>coldthem.help@gmail.com</p>
+        <p class="close" onclick="closeModal()">Закрыть</p>
     </div>
+
+    <script>
+        // Открытие модального окна Help
+        function openModal() {
+            document.getElementById('helpModal').style.bottom = '50px';
+            document.getElementById('helpModal').style.display = 'block';
+        }
+
+        // Закрытие модального окна Help
+        function closeModal() {
+            document.getElementById('helpModal').style.bottom = '-100%';
+            setTimeout(() => {
+                document.getElementById('helpModal').style.display = 'none';
+            }, 500);
+        }
+    </script>
 </body>
 </html>
