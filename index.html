@@ -13,20 +13,6 @@
             text-align: center;
             overflow: hidden;
         }
-        .snowflake {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            to {
-                transform: translateY(100vh);
-            }
-        }
         .container {
             max-width: 800px;
             margin: auto;
@@ -47,18 +33,23 @@
             text-decoration: none;
             font-weight: bold;
         }
-        .menu {
+        .footer {
             position: fixed;
             bottom: 10px;
             width: 100%;
             text-align: center;
+            font-size: 14px;
         }
-        .menu a {
-            margin: 0 15px;
-            color: #00bfff;
-            cursor: pointer;
+        .snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
-        .help-modal {
+        .modal {
+            display: none;
             position: fixed;
             bottom: -100%;
             left: 50%;
@@ -68,18 +59,15 @@
             padding: 20px;
             border-radius: 10px;
             text-align: center;
-            transition: bottom 0.5s ease-in-out;
-        }
-        .help-modal.active {
-            bottom: 20px;
-        }
-        .close-btn {
-            background: red;
             color: white;
-            padding: 5px 10px;
-            border: none;
+            transition: bottom 0.5s;
+        }
+        .modal.show {
+            bottom: 10%;
+        }
+        .close {
             cursor: pointer;
-            margin-top: 10px;
+            color: red;
         }
     </style>
 </head>
@@ -106,34 +94,64 @@
             <a href="#">Открыть статистику</a>
         </div>
     </div>
-
-    <div class="menu">
-        <a onclick="toggleHelp()">Help</a>
-        <a href="#">Privacy Policy</a>
+    <canvas class="snow"></canvas>
+    <div class="footer">
+        <a href="#" onclick="openModal('helpModal')">Help</a> | <a href="#">Privacy Policy</a>
     </div>
-
-    <div class="help-modal" id="helpModal">
+    <div id="helpModal" class="modal">
         <p>Контактная почта: coldthem.help@gmail.com</p>
-        <button class="close-btn" onclick="toggleHelp()">Закрыть</button>
+        <span class="close" onclick="closeModal('helpModal')">Закрыть</span>
     </div>
-
     <script>
-        function createSnowflakes() {
-            for (let i = 0; i < 50; i++) {
-                let snowflake = document.createElement("div");
-                snowflake.className = "snowflake";
-                snowflake.style.left = Math.random() * 100 + "vw";
-                snowflake.style.animationDuration = (Math.random() * 3 + 2) + "s";
-                document.body.appendChild(snowflake);
-                setTimeout(() => snowflake.remove(), 5000);
+        function openModal(id) {
+            document.getElementById(id).classList.add('show');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+        function createSnow() {
+            const canvas = document.querySelector('.snow');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            let particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 4 + 1,
+                    d: Math.random() * 2,
+                });
             }
+            function drawSnow() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                for (let i = 0; i < particles.length; i++) {
+                    let p = particles[i];
+                    ctx.moveTo(p.x, p.y);
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+                }
+                ctx.fill();
+                updateSnow();
+            }
+            function updateSnow() {
+                for (let i = 0; i < particles.length; i++) {
+                    let p = particles[i];
+                    p.y += p.d;
+                    if (p.y > canvas.height) {
+                        p.y = 0;
+                        p.x = Math.random() * canvas.width;
+                    }
+                }
+            }
+            function animateSnow() {
+                drawSnow();
+                requestAnimationFrame(animateSnow);
+            }
+            animateSnow();
         }
-        setInterval(createSnowflakes, 500);
-
-        function toggleHelp() {
-            let modal = document.getElementById("helpModal");
-            modal.classList.toggle("active");
-        }
+        createSnow();
     </script>
 </body>
 </html>
