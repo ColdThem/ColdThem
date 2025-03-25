@@ -35,8 +35,12 @@
             background: rgba(0, 0, 50, 0.8);
             padding: 10px;
             font-size: 14px;
-            position: relative;
+            position: fixed;
+            bottom: 0;
+            left: 0;
             width: 100%;
+            text-align: left;
+            padding-left: 20px;
         }
         .footer a {
             color: #00bfff;
@@ -51,15 +55,12 @@
         .modal {
             display: none;
             position: fixed;
-            bottom: -100%;
+            bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80%;
-            max-width: 400px;
             background: rgba(0, 0, 50, 0.9);
             padding: 20px;
             border-radius: 10px;
-            text-align: center;
             color: white;
             box-shadow: 0 0 10px #00bfff;
             transition: bottom 0.5s ease-in-out;
@@ -69,6 +70,20 @@
             cursor: pointer;
             font-size: 18px;
             color: #00bfff;
+        }
+        @keyframes snowfall {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(100vh); }
+        }
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: snowfall 10s linear infinite;
         }
     </style>
 </head>
@@ -84,7 +99,7 @@
         <div class="section">
             <h2>Новости</h2>
             <p>Последние обновления сервера.</p>
-            <a href="#">Читать новости</a>
+            <a href="#" onclick="openNews()">Читать новости</a>
         </div>
         <div class="section">
             <h2>Статистика игроков</h2>
@@ -94,7 +109,7 @@
         <div class="section">
             <h2>Правила</h2>
             <p>Ознакомьтесь с правилами сервера.</p>
-            <a href="#">Читать правила</a>
+            <a href="rules.html">Читать правила</a>
         </div>
     </div>
     <div class="footer">
@@ -117,6 +132,19 @@
                 document.getElementById('helpModal').style.display = 'none';
             }, 500);
         }
+        function openNews() {
+            alert("Здесь будут отображаться последние новости!");
+        }
+        function createSnowflakes() {
+            for (let i = 0; i < 50; i++) {
+                let snowflake = document.createElement("div");
+                snowflake.classList.add("snowflake");
+                snowflake.style.left = Math.random() * window.innerWidth + "px";
+                snowflake.style.animationDuration = (Math.random() * 5 + 5) + "s";
+                document.body.appendChild(snowflake);
+            }
+        }
+        createSnowflakes();
     </script>
 </body>
 </html>
