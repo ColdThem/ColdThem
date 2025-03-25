@@ -36,9 +36,9 @@
             padding: 10px;
             font-size: 14px;
             position: fixed;
-            width: 100%;
             bottom: 0;
             left: 0;
+            width: 100%;
             text-align: center;
         }
         .footer a {
@@ -57,17 +57,23 @@
             bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 50, 0.9);
+            background: rgba(0, 0, 50, 0.8);
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #00bfff;
             color: white;
+            box-shadow: 0 0 10px #00bfff;
+            transition: bottom 0.5s ease-in-out;
+            border-radius: 10px;
         }
         .modal p { margin: 10px 0; }
         .modal .close {
             cursor: pointer;
             font-size: 18px;
             color: #00bfff;
+        }
+        .section a {
+            color: #bfaaff;
+            text-decoration: none;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -88,12 +94,12 @@
         <div class="section">
             <h2>Статистика игроков</h2>
             <p>Следите за своей статистикой и достижениями.</p>
-            <a href="#">Открыть статистику</a>
+            <a href="stats.html" target="_blank">Открыть статистику</a>
         </div>
         <div class="section">
             <h2>Правила</h2>
             <p>Ознакомьтесь с правилами сервера.</p>
-            <a href="#">Читать правила</a>
+            <a href="rules.html" target="_blank">Читать правила</a>
         </div>
     </div>
     <div class="footer">
@@ -107,12 +113,15 @@
     </div>
     <script>
         function openModal() {
+            document.getElementById('helpModal').style.bottom = '100px';
             document.getElementById('helpModal').style.display = 'block';
         }
         function closeModal() {
-            document.getElementById('helpModal').style.display = 'none';
+            document.getElementById('helpModal').style.bottom = '-100%';
+            setTimeout(() => {
+                document.getElementById('helpModal').style.display = 'none';
+            }, 500);
         }
     </script>
 </body>
 </html>
-
