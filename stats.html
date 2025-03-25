@@ -1,1 +1,85 @@
-
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика игроков</title>
+    <style>
+        body {
+            background: url('https://games.24tv.ua/resources/photos/news/202401/2468703.jpg?v=1704729471000') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .search-box {
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid white;
+        }
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #00bfff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background: #0088cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Статистика игроков</h1>
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Введите ник..." onkeyup="searchPlayer()">
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ник</th>
+                    <th>Убийства</th>
+                    <th>Время в игре</th>
+                    <th>Баланс</th>
+                </tr>
+            </thead>
+            <tbody id="playerTable">
+                <tr><td>Player1</td><td>50</td><td>10 ч.</td><td>5000</td></tr>
+                <tr><td>Player2</td><td>20</td><td>5 ч.</td><td>2000</td></tr>
+                <tr><td>Player3</td><td>75</td><td>15 ч.</td><td>10000</td></tr>
+            </tbody>
+        </table>
+        <a href="index.html" class="back-button">Назад</a>
+    </div>
+    <script>
+        function searchPlayer() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let rows = document.querySelectorAll("#playerTable tr");
+            rows.forEach(row => {
+                let nickname = row.cells[0].textContent.toLowerCase();
+                row.style.display = nickname.includes(input) ? "" : "none";
+            });
+        }
+    </script>
+</body>
+</html>
