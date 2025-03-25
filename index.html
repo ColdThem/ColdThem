@@ -59,21 +59,14 @@
             transform: translateX(-50%);
             background: rgba(0, 0, 50, 0.8);
             padding: 20px;
-            color: white;
-            box-shadow: 0 0 10px #00bfff;
-            transition: bottom 0.5s ease-in-out;
             border-radius: 10px;
+            box-shadow: 0 0 10px #00bfff;
         }
         .modal p { margin: 10px 0; }
         .modal .close {
             cursor: pointer;
             font-size: 18px;
             color: #00bfff;
-        }
-        .section a {
-            color: #bfaaff;
-            text-decoration: none;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -113,14 +106,10 @@
     </div>
     <script>
         function openModal() {
-            document.getElementById('helpModal').style.bottom = '100px';
             document.getElementById('helpModal').style.display = 'block';
         }
         function closeModal() {
-            document.getElementById('helpModal').style.bottom = '-100%';
-            setTimeout(() => {
-                document.getElementById('helpModal').style.display = 'none';
-            }, 500);
+            document.getElementById('helpModal').style.display = 'none';
         }
     </script>
 </body>
